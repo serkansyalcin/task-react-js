@@ -10,7 +10,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ImageSelector from "./ImageSelector";
-import { BASE_URL } from "../../config";
+import axios from "axios";
+import { API_BASE_URL, BASE_URL } from "../../config";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -29,7 +30,7 @@ const validationSchema = Yup.object({
 });
 
 function FormDialog(props) {
-  const { setOpen, open, row } = props;
+  const { setOpen, open, row, fetchProducts } = props;
   const [file, setFile] = React.useState(null);
 
   const handleClose = () => {
@@ -45,6 +46,36 @@ function FormDialog(props) {
   };
 
   const handleFormSubmit = async (values) => {
+    try {
+      const formData = new FormData();
+      file && formData.append("image", file);
+      Object.keys(values).forEach((key) => {
+        formData.append(key, values[key]);
+      });
+      let response;
+      if (row) {
+        response = await axios.put(
+          `${API_BASE_URL}products/${row._id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(`${API_BASE_URL}products`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+
+      console.log("Response:", response);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
     handleClose();
   };
 
@@ -60,7 +91,8 @@ function FormDialog(props) {
       open={open}
       sx={{
         '.MuiPaper-root': {
-          margin: "0",
+          margin: "20px",
+          padding:"10px"
         }
       }}
     >
@@ -70,7 +102,7 @@ function FormDialog(props) {
         onSubmit={handleFormSubmit}
       >
         {() => (
-          <Form className="form-c">
+          <Form className="form-form-section">
             <div className="heading">
               <DialogTitle sx={{ m: 0, p: 1 , fontSize : 18 }} id="customized-dialog-title">
                 {row ? "Edit Product" : "Add New Product"}

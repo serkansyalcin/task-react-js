@@ -7,8 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { TableSortLabel } from "@mui/material";
-
+import { TableSortLabel, Typography } from "@mui/material";
+import ActionBtnsMenu from "./ActionBtnsMenu";
 import { BASE_URL } from "../../config";
 
 const columns = [
@@ -21,7 +21,7 @@ const columns = [
 ];
 
 function ProductsTable(props) {
-  const { productsArr, } = props;
+  const { productsArr, fetchProducts , loading , setLoading} = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState("asc");
@@ -44,11 +44,11 @@ function ProductsTable(props) {
 
   const sortedData = productsArr.sort((a, b) => {
     const isAsc = order === "asc";
-    let aValue = a[orderBy] ?? "";
+    let aValue = a[orderBy] ?? ""; 
     let bValue = b[orderBy] ?? "";
 
     if (typeof aValue === "string") {
-      aValue = aValue.toLowerCase();
+      aValue = aValue.toLowerCase(); 
     }
     if (typeof bValue === "string") {
       bValue = bValue.toLowerCase();
@@ -93,43 +93,61 @@ function ProductsTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                const imageUrl = row.imageUrl ? BASE_URL + row.imageUrl : "";
-                return (
-                  <TableRow
-                    hover={row.stock}
-                    key={row.id}
-                    sx={{
-                      backgroundColor: !row.stock ? "#d3d3d3" : "",
-                      cursor: !row.stock ? "auto" : "pointer",
-                    }}
+            {productsArr.length === 0 &&
+            !loading ? (
+              <TableRow>
+                <TableCell colSpan={columns.length + 2}>
+                  <Typography
+                    variant="h6"
+                    align="center"
+                    color="textSecondary"
+                    sx={{ padding: 3 }}
                   >
-                    <TableCell sx={{ width: "42px" }}>
-                      <div
-                        className={`img-section ${
-                          imageUrl ? "" : "placholder"
-                        }`}
-                      >
-                        {imageUrl && <img src={imageUrl} alt="" />}
-                      </div>
-                    </TableCell>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value || "Out Of Stock"}
-                        </TableCell>
-                      );
-                    })}
+                    No Products Available
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            ) : (
+              sortedData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  const imageUrl = row.imageUrl ? BASE_URL + row.imageUrl : "";
+                  return (
+                    <TableRow
+                      hover={row.stock}
+                      key={row.id}
+                      sx={{
+                        backgroundColor: !row.stock ? "#d3d3d3" : "",
+                        cursor: !row.stock ? "auto" : "pointer",
+                      }}
+                    >
+                      <TableCell sx={{ width: "42px" }}>
+                        <div
+                          className={`img-section ${
+                            imageUrl ? "" : "placholder"
+                          }`}
+                        >
+                          {imageUrl && <img src={imageUrl} alt="" />}
+                        </div>
+                      </TableCell>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id}>
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value || "Out Of Stock"}
+                          </TableCell>
+                        );
+                      })}
 
-                    <TableCell sx={{ width: "80px" }}></TableCell>
-                  </TableRow>
-                );
-              })}
+                      <TableCell sx={{ width: "80px" }}>
+                        <ActionBtnsMenu {...{ row, fetchProducts ,loading , setLoading}} />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+            )}
           </TableBody>
         </Table>
       </TableContainer>
