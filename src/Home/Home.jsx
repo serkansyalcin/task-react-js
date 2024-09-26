@@ -1,11 +1,15 @@
 import { useState } from "react";
 import "./home.css";
+import ProductsTable from "./components/ProductsTable.jsx";
 import FormDialog from "./components/FormDialog.jsx";
 import { Button } from "@mui/material"; 
 
 
+
 const Home = () => {
   const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState([]);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -21,6 +25,8 @@ const Home = () => {
       </div>
 
 
+
+      <ProductsTable {...{ productsArr: products}} />
     </div>
   );
 };
