@@ -1,0 +1,201 @@
+body{
+  min-height: 100vh;
+}
+*{
+  box-sizing:content-box;
+}
+.home-wrapper {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 90vh;
+}
+.heading{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-product-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.add-product-wrapper button {
+  cursor: pointer;
+  padding: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-transform: capitalize;
+  border-color: gray;
+  color: gray;
+}
+
+.img-section {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+}
+.img-section.placholder {
+border: 1px solid black;
+}
+
+.img-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.action-btn {
+  display: flex;
+  border-radius: 50%;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.menu-item {
+  display: flex;
+  gap: 8px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.form-section {
+  display: flex;
+  flex-flow: row;
+  gap: 30px;
+  align-items: center;
+}
+
+.fields-row {
+  display: flex;
+  flex-flow: row;
+
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 100px;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.field-wrapper label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field-wrapper input {
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid gray;
+}
+
+.field-wrapper textarea {
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid gray;
+  resize: none;
+  overflow: auto;
+}
+
+.img-selector-section {
+  width: 144px;
+  height: 144px;
+}
+
+.img-selector-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #5e8677;
+  background-color: #e9f0ed;
+}
+
+.img-selector-wrapper input {
+  display: none;
+}
+
+.img-selector-wrapper label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+.img-selector-wrapper label img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0 ,0 ,0,0.1);
+  z-index: 999;
+}
+
+
+.img-selector-wrapper label svg {
+  height: 48px;
+  width: 48px;
+}
+
+.error {
+  font-size: 12px;
+  padding-top: 2px;
+  color: darkred;
+}
+.btn{
+  font-size: 16px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+   .form-section {
+    flex-flow: column;
+    gap: 15px;
+  }
+  .field-wrapper input,
+  .field-wrapper textarea {
+    font-size: 12px;
+    padding: 6px;
+  } 
+  .img-selector-section {
+    width: 120px;
+    height: 120px;
+  } 
+  .home-wrapper {
+    padding: 10px;
+  }
+}
+
